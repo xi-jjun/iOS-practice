@@ -105,7 +105,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="sisorBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Byv-UP-UEZ"/>
+                                            <action selector="rspBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WS7-ah-Ycw"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNe-PW-lhx">
@@ -120,7 +120,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="rockBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dTF-ft-onK"/>
+                                            <action selector="rspBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wl3-tQ-j9t"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CvE-3K-ho8">
@@ -135,7 +135,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="paperBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jRq-f3-fHg"/>
+                                            <action selector="rspBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RaM-Fh-dJf"/>
                                         </connections>
                                     </button>
                                 </subviews>
