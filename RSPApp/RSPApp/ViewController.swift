@@ -7,21 +7,13 @@
 
 import UIKit
 
-struct Actions {
-    var image: UIImage
-    var definition: String
-}
-
 class ViewController: UIViewController {
-    let ROCK: String = "rock"
-    let SISSOR: String = "sissors"
-    let PAPER: String = "paper"
     let SELECT_TEXT = "선택하세요"
     let READY_TEXT = "Ready?"
+    let WIN_TEXT = "WIN!! :>"
+    let LOSE_TEXT = "LOSE :<"
+    let DRAW_TEXT = "DRAW~ :I"
     
-    let readyImage: UIImage = #imageLiteral(resourceName: "ready")
-    var rspComponentList = [Actions]()
-
     @IBOutlet weak var selectTitle: UILabel!
     @IBOutlet weak var comStatusLabel: UILabel!
     @IBOutlet weak var userStatusLabel: UILabel!
@@ -37,9 +29,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         resetImage()
-        rspComponentList.append(Actions(image: #imageLiteral(resourceName: "rock"), definition: ROCK))
-        rspComponentList.append(Actions(image: #imageLiteral(resourceName: "scissors"), definition: SISSOR))
-        rspComponentList.append(Actions(image: #imageLiteral(resourceName: "paper"), definition: PAPER))
     }
     
     private func resetText() {
@@ -49,66 +38,61 @@ class ViewController: UIViewController {
     }
     
     private func resetImage() {
-        userImage.image = readyImage
-        comImage.image = readyImage
+        userImage.image = RspImage.getImage(imageType: Rsp.ready)
+        comImage.image = RspImage.getImage(imageType: Rsp.ready)
     }
     
     private func showResult(computerResult: String, userResult: String) {
         comStatusLabel.text = computerResult
         userStatusLabel.text = userResult
     }
-
+    
+    private func isDraw(comChoice: Rsp, userChoice: Rsp) -> Bool {
+        return comChoice == userChoice
+    }
+    
+    private func comWin(comChoice: Rsp, userChoice: Rsp) -> Bool {
+        return (comChoice == Rsp.scissor && userChoice == Rsp.paper) ||
+        (comChoice == Rsp.paper && userChoice == Rsp.rock) ||
+        (comChoice == Rsp.rock && userChoice == Rsp.scissor)
+    }
+    
+    private func process(userChoice: Rsp) {
+        let comChoice = Rsp(rawValue: Int.random(in: 0...2))
+        comImage.image = RspImage.getImage(imageType: comChoice!)
+        userImage.image = RspImage.getImage(imageType: userChoice)
+        print("user : ", userChoice, ", computer : ", comChoice!)
+        
+        if comChoice == userChoice {
+            showResult(computerResult: DRAW_TEXT, userResult: DRAW_TEXT)
+        } else if comWin(comChoice: comChoice!, userChoice: userChoice) {
+            showResult(computerResult: WIN_TEXT, userResult: LOSE_TEXT)
+        } else {
+            showResult(computerResult: LOSE_TEXT, userResult: WIN_TEXT)
+        }
+    }
+    
     @IBAction func resetBtnPressed(_ sender: UIButton) {
         print("ViewController - resetBtnPressed() called")
         resetText()
         resetImage()
     }
     
-    @IBAction func sisorBtnTapped(_ sender: UIButton) {
-        print("ViewController - sisorBtnTapped() called")
-        let computerResult = rspComponentList.randomElement()
-        comImage.image = computerResult?.image
-        userImage.image = rspComponentList[1].image
-
-        if (computerResult?.definition == SISSOR) {
-            showResult(computerResult: "무승부!", userResult: "무승부!")
-        } else if (computerResult?.definition == ROCK) {
-            showResult(computerResult: "Win!", userResult: "Lose :(")
-        } else {
-            showResult(computerResult: "Lose:)", userResult: "Win!!!")
+    @IBAction func rspBtnTapped(_ sender: UIButton) {
+        print("ViewController - rspBtnTapped() called")
+        
+        let title = sender.currentTitle!
+        switch title {
+        case "가위":
+            process(userChoice: Rsp.scissor)
+        case "바위":
+            process(userChoice: Rsp.rock)
+        case "보":
+            process(userChoice: Rsp.paper)
+        default:
+            break
         }
     }
     
-    @IBAction func rockBtnTapped(_ sender: UIButton) {
-        print("ViewController - rockBtnTapped() called")
-        
-        let computerResult = rspComponentList.randomElement()
-        comImage.image = computerResult?.image
-        userImage.image = rspComponentList[0].image
-
-        if (computerResult?.definition == ROCK) {
-            showResult(computerResult: "무승부!", userResult: "무승부!")
-        } else if (computerResult?.definition == PAPER) {
-            showResult(computerResult: "Win!", userResult: "Lose :(")
-        } else {
-            showResult(computerResult: "Lose:)", userResult: "Win!!!")
-        }
-    }
-    
-    @IBAction func paperBtnTapped(_ sender: UIButton) {
-        print("ViewController - paperBtnTapped() called")
-        
-        let computerResult = rspComponentList.randomElement()
-        comImage.image = computerResult?.image
-        userImage.image = rspComponentList[2].image
-
-        if (computerResult?.definition == PAPER) {
-            showResult(computerResult: "무승부!", userResult: "무승부!")
-        } else if (computerResult?.definition == SISSOR) {
-            showResult(computerResult: "Win!", userResult: "Lose :(")
-        } else {
-            showResult(computerResult: "Lose:)", userResult: "Win!!!")
-        }
-    }
 }
 
