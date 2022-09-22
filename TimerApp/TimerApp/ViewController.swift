@@ -31,6 +31,8 @@ class ViewController: UIViewController {
         slider.setValue(0.5, animated: true)
         slider.thumbTintColor = #colorLiteral(red: 0.8466643691, green: 0.7486293912, blue: 1, alpha: 0.85)
         slider.tintColor = #colorLiteral(red: 1, green: 0.6221433878, blue: 0.7607420087, alpha: 0.8470588235)
+        resetBtn.layer.cornerRadius = 10
+        startBtn.layer.cornerRadius = 10
     }
 
     @IBAction func sliderChanged(_ sender: UISlider) {
