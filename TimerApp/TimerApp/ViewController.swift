@@ -34,9 +34,25 @@ class ViewController: UIViewController {
         resetBtn.layer.cornerRadius = 10
         startBtn.layer.cornerRadius = 10
     }
+    
+    @objc func doAlarm() {
+        AudioServicesPlaySystemSound(SystemSoundID(1321))
+    }
+    
+    @objc func countTime() {
+        if Int(slider.value * 60) > 0 {
+            slider.value = Float(Int(slider.value * 60) - 1) / 60
+            mainLabel.text = String(round(slider.value * 60)) + " s"
+        } else {
+            timer?.invalidate()
+            mainLabel.text = "END!"
+            
+            alarmTimer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(doAlarm), userInfo: nil, repeats: true)
+        }
+    }
 
     @IBAction func sliderChanged(_ sender: UISlider) {
-        mainLabel.text = String(round(sender.value * 60)) + " sec"
+        mainLabel.text = String(round(sender.value * 60)) + " s"
     }
     
     @IBAction func resetBtnTapped(_ sender: UIButton) {
@@ -48,19 +64,11 @@ class ViewController: UIViewController {
     
     @IBAction func startBtnTapped(_ sender: UIButton) {
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [self] _ in
-            if Int(slider.value * 60) > 0 {
-                slider.value = Float(Int(slider.value * 60) - 1) / 60;
-                mainLabel.text = String(round(slider.value * 60)) + " sec"
-            } else {
-                timer?.invalidate()
-                mainLabel.text = "END!"
-                
-                alarmTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [] _ in
-                    AudioServicesPlaySystemSound(SystemSoundID(1321))
-                }
-            }
-        }
+        
+        // #selector(메모리주소) : 메모리주소를 담아서 어떤 함수를 가리킬 것인지 연결하는 것.
+        // => 이 기법은 Objective-C에서 사용하던 기법이기에 @objc를 붙여줘야 하는 것
+        // userInfo : 어떤 정보를 전달할 것인지
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countTime), userInfo: nil, repeats: true)
     }
     
 }
