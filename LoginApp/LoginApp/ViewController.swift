@@ -225,7 +225,22 @@ class ViewController: UIViewController {
     }
     
     @objc func resetBtnTapped() {
-        print("password reset btn tapped!")
+        let alert = UIAlertController(title: "Password Change", message: "Do you want to change your password?", preferredStyle: .alert)
+        
+        let success = UIAlertAction(title: "Yes", style: .default) { success in
+            print("Success to change password")
+        }
+        
+        let fail = UIAlertAction(title: "No", style: .default) { fail in
+            print("fail to change password")
+        }
+        
+        alert.addAction(success)
+        alert.addAction(fail)
+        
+        present(alert, animated: true) {
+            print("alert screen pop up!")
+        }
     }
 }
 
