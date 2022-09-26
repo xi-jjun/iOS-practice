@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate { // 자격증 추가
 
     @IBOutlet weak var userTextField: UITextField!
     @IBOutlet weak var textShowLabel: UILabel!
@@ -19,6 +19,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func setUp() {
+        /**
+         현재 ViewController에 UITextField가 delegate로 등록.
+         구현은 현재 클래스에서 하고, 동작은 delegate에 위임.
+         => UITextField에는 textField라는 method가 존재. 해당 method는 delegate의 textField를 수행하도록 할 것임. 따라서! UITextField는 delegate에게 해당 method를 실행하도록 명령을 위임한다.
+         */
+        userTextField.delegate = self
+        
         view.backgroundColor = #colorLiteral(red: 0.9141908288, green: 0.8648947477, blue: 0.976552546, alpha: 1)
         
         userTextField.keyboardType = UIKeyboardType.default
@@ -36,16 +43,29 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     /*
      text글자 내용이 한 글자씩 추가되거나 수정될 때 마다 호출이 됨
-     이처럼 UITextFieldDelegate를 추가하면 다양한 함수를 써서 제어를 할 수 있음
+     이처럼 UITextFieldDelegate를 추가하면 다양한 함수를 구현하여 제어를 할 수 있음
      */
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        <#code#>
-//    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxLength = 20
+        let currentString: NSString = textField.text! as NSString
+        
+        let newString: NSString =  currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
+    }
     
     func textFieldWrittenCompeleted(_ textField: UITextField) -> Bool {
         userTextField.resignFirstResponder()
         return true
     }
+    
+    /**
+     입력을 시작하게 할지 말지를 허락해주는 기능
+     if true, then write
+     else, cant write
+     */
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        return false
+//    }
 
     @IBAction func doneBtnTapped(_ sender: UIButton) {
         textShowLabel.text = userTextField.text!
