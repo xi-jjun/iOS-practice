@@ -16,8 +16,8 @@ class ViewController: UIViewController {
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
         
-        view.addSubview(emailTextField)
-        view.addSubview(emailInfoLabel)
+        view.addSubview(emailTextField) // 얘가 먼저 올라온 다음
+        view.addSubview(emailInfoLabel) // 그 위에 얘가 와야하기 때문에 순서를 고려하여 코드를 작성해야 한다.
         
         return view
     }()
@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     // MARK: - email placeholder
     private lazy var emailInfoLabel: UILabel = {
         let label = UILabel()
-        //        label.text = "Email or phone number"
+        label.text = "Email or phone number"
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .white
         
@@ -54,8 +54,8 @@ class ViewController: UIViewController {
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
         
-        view.addSubview(passwordInfoLabel)
         view.addSubview(passwordTextField)
+        view.addSubview(passwordInfoLabel)
         view.addSubview(passwordShowBtn)
         
         return view
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
     // MARK: - password placeholder
     private lazy var passwordInfoLabel: UILabel = {
         let label = UILabel()
-        //        label.text = "password"
+        label.text = "password"
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .white
         
@@ -93,102 +93,139 @@ class ViewController: UIViewController {
         btn.setTitle("show", for: .normal)
         btn.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         
-        btn.addTarget(self, action: #selector(ViewController.showBtnTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(showBtnTapped), for: .touchUpInside)
         
         return btn
     }()
     
     private let loginBtn: UIButton = {
-        let btn = UIButton()
+        let btn = UIButton(type: .custom)
         btn.backgroundColor = .clear
         btn.layer.cornerRadius = 5
         btn.layer.borderWidth = 1
         btn.layer.borderColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         btn.setTitle("Login", for: .normal)
         btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        btn.isEnabled = false
-        btn.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        btn.isEnabled = true
+        btn.addTarget(self, action: #selector(loginBtnTapped), for: .touchUpInside)
         
         return btn
     }()
+    
+    private lazy var stackView: UIStackView = {
+        let stView = UIStackView(arrangedSubviews: [emailTextFieldView, passwordTextFieldView, loginBtn])
+        stView.spacing = 18
+        stView.axis = .vertical
+        stView.distribution = .fillEqually
+        stView.alignment = .fill
+        
+        return stView
+    }()
+    
+    private let passwordResetBtn: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = .clear
+        btn.setTitle("Reset password", for: .normal)
+        btn.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        btn.addTarget(self, action: #selector(resetBtnTapped), for: .touchUpInside)
+        
+        return btn
+    }()
+    
+    private let textViewHeight: CGFloat = 48
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
     }
     
+    func setUpUI() {
+        view.backgroundColor = .black
+        view.addSubview(stackView) // stack view를 subview로 올리면, stack view안의 View에 대해서는 따로 subview로 추가하면 안된다.
+        
+        emailComponentUIConfigure()
+        passwordComponentUIConfigure()
+        stackViewUIConfiguration()
+        passwordResetComponentUIConfigure()
+    }
+    
     // MARK: - email View UIConfiguration
     func emailComponentUIConfigure() {
-        view.addSubview(emailTextFieldView) // 현재 화면(view)에 emailTextFieldView를 loading
-        
-        /**
-         auto layout은 외부에 선언해줘야 함
-         */
-        emailTextFieldView.translatesAutoresizingMaskIntoConstraints = false // 자동으로 autolayout 잡아주는 기능을 꺼줘야 아래의 수동으로 설정한 정보들을 화면에 띄울 수 있다.
-        // view.leadingAnchor를 기준으로 leadingAnchor를 20만큼 주는 constraint를 true로 한다.
-        emailTextFieldView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true // 왼쪽으로부터 떨어진 정도
-        emailTextFieldView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true // 오른쪽으로부터 떨어진 정도
-        emailTextFieldView.topAnchor.constraint(equalTo: view.topAnchor, constant: 220).isActive = true // 위쪽으로부터 떨어진 정도
-        emailTextFieldView.heightAnchor.constraint(equalToConstant: 50).isActive = true // 높이
-        
-        emailTextField.translatesAutoresizingMaskIntoConstraints = false
-        emailTextField.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 20).isActive = true
-        emailTextField.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: -20).isActive = true
-        emailTextField.topAnchor.constraint(equalTo: emailTextFieldView.topAnchor, constant: 5).isActive = true
-        emailTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
         emailInfoLabel.translatesAutoresizingMaskIntoConstraints = false
-        emailInfoLabel.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 10).isActive = true // 왼쪽으로부터 떨어진 정도
-        emailInfoLabel.widthAnchor.constraint(equalToConstant: 350).isActive = true
-        emailInfoLabel.topAnchor.constraint(equalTo: emailTextFieldView.topAnchor, constant: 5).isActive = true // 위쪽으로부터 떨어진 정도
-        emailInfoLabel.bottomAnchor.constraint(equalTo: emailTextFieldView.bottomAnchor, constant: -5).isActive = true
+        emailTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            emailInfoLabel.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 10),
+            emailInfoLabel.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: 10),
+            emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor),
+            
+            emailTextField.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 10),
+            emailTextField.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: 10),
+            emailTextField.topAnchor.constraint(equalTo: emailTextFieldView.topAnchor, constant: 15),
+            emailTextField.bottomAnchor.constraint(equalTo: emailTextFieldView.bottomAnchor, constant: 2)
+        ])
     }
     
     // MARK: - password View UIConfiguration
     func passwordComponentUIConfigure() {
-        view.addSubview(passwordTextFieldView)
-        
-        passwordTextFieldView.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextFieldView.topAnchor.constraint(equalTo: emailTextFieldView.bottomAnchor, constant: 10).isActive = true
-        passwordTextFieldView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        passwordTextFieldView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        passwordTextFieldView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 20).isActive = true
-        passwordTextField.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -20).isActive = true
-        passwordTextField.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 5).isActive = true
-        passwordTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
         passwordInfoLabel.translatesAutoresizingMaskIntoConstraints = false
-        passwordInfoLabel.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 10).isActive = true
-        passwordInfoLabel.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 5).isActive = true
-        passwordInfoLabel.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -5).isActive = true
-        passwordInfoLabel.widthAnchor.constraint(equalToConstant: 250).isActive = true
-        
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordShowBtn.translatesAutoresizingMaskIntoConstraints = false
-        passwordShowBtn.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -20).isActive = true
-        passwordShowBtn.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 5).isActive = true
-        passwordShowBtn.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -5).isActive = true
-        passwordShowBtn.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        
+        NSLayoutConstraint.activate([
+            passwordInfoLabel.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 10),
+            passwordInfoLabel.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 5),
+            passwordInfoLabel.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -5),
+            passwordInfoLabel.widthAnchor.constraint(equalToConstant: 250),
+            
+            passwordTextField.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 10),
+            passwordTextField.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: 10),
+            passwordTextField.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 15),
+            passwordTextField.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: 2),
+            
+            passwordShowBtn.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: -10),
+            passwordShowBtn.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 15),
+            passwordShowBtn.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -15)
+        ])
     }
     
-    func setUpUI() {
-        view.backgroundColor = .black
+    // MARK: - stack view(email, password, login btn) View UIConfiguration
+    func stackViewUIConfiguration() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        emailComponentUIConfigure()
-        passwordComponentUIConfigure()
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.heightAnchor.constraint(equalToConstant: textViewHeight * 3 + 36)
+        ])
+    }
+    
+    // MARK: - password reset btn UIConfiguration
+    func passwordResetComponentUIConfigure() {
+        view.addSubview(passwordResetBtn)
         
+        passwordResetBtn.translatesAutoresizingMaskIntoConstraints = false
         
-        
+        NSLayoutConstraint.activate([
+            passwordResetBtn.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10),
+            passwordResetBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            passwordResetBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            passwordResetBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
     }
     
     @objc func showBtnTapped() {
         passwordTextField.isSecureTextEntry.toggle()
     }
     
-    @objc func loginButtonTapped() {
+    @objc func loginBtnTapped() {
         print("login btn tapped!")
+    }
+    
+    @objc func resetBtnTapped() {
+        print("password reset btn tapped!")
     }
 }
 
