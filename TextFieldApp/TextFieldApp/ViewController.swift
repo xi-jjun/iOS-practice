@@ -46,6 +46,8 @@ class ViewController: UIViewController, UITextFieldDelegate { // protocol(자격
         userTextField.borderStyle = .roundedRect
         userTextField.backgroundColor = #colorLiteral(red: 0.9718628526, green: 0.9668141007, blue: 1, alpha: 1)
         /**
+         애초에 UIView는 UIResponder를 상속하여 만들어졌다.
+         
          UIWindow는 터치나 사용자의 상호작용을 받을 수 있는 객체를 뜻한다. 그래서 First응답 객체를 지정해주는데,
          해당 UIWindow에서 첫번째로 반응할 요소를 TextField로 해주게 되면 키보드가 생기는 것.
          사용자에게 첫번째로 응답해주는게 TextField가 되고, 반응했기에 키보드가 올라오게 되는 것이다.
@@ -72,12 +74,25 @@ class ViewController: UIViewController, UITextFieldDelegate { // protocol(자격
         return newString.length <= maxLength
     }
     
-    func textFieldWrittenCompeleted(_ textField: UITextField) -> Bool {
-        /**
-         애초에 UIView는 UIResponder를 상속하여 만들어졌다.
-         */
-        userTextField.resignFirstResponder()
-        return true
+    /**
+     화면에 touch가 발생하면 호출되는 method
+     */
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        textShowLabel.text = userTextField.text!
+        userTextField?.resignFirstResponder()
+    }
+    
+    /**
+     return(키보드의 enter버튼)을 눌렀을 때 키보드 내리도록 설정.
+     
+     - description
+     true if the text field should implement its default behavior for the return button; otherwise, false.
+     버튼이 눌렸을 때 어떤 처리를 하고 싶다면 구현해서 쓰면 되는 것.
+     */
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textShowLabel.text = userTextField.text!
+        userTextField.resignFirstResponder() // keyboard 내리기
+        return false
     }
     
     /**
@@ -91,7 +106,7 @@ class ViewController: UIViewController, UITextFieldDelegate { // protocol(자격
 
     @IBAction func doneBtnTapped(_ sender: UIButton) {
         textShowLabel.text = userTextField.text!
-        textFieldWrittenCompeleted(userTextField)
+        userTextField.resignFirstResponder()
     }
     
 }
