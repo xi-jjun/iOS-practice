@@ -40,9 +40,9 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l3o-dr-PWs">
-                                <rect key="frame" x="40" y="409" width="334" height="440"/>
+                                <rect key="frame" x="40" y="409" width="334" height="300"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="440" id="ou9-4A-Rfr"/>
+                                    <constraint firstAttribute="height" constant="300" id="ou9-4A-Rfr"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                 <nil key="textColor"/>
