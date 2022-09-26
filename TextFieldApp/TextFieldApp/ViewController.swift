@@ -45,6 +45,12 @@ class ViewController: UIViewController, UITextFieldDelegate { // protocol(자격
         userTextField.placeholder = "뭐든 적으세요"
         userTextField.borderStyle = .roundedRect
         userTextField.backgroundColor = #colorLiteral(red: 0.9718628526, green: 0.9668141007, blue: 1, alpha: 1)
+        /**
+         UIWindow는 터치나 사용자의 상호작용을 받을 수 있는 객체를 뜻한다. 그래서 First응답 객체를 지정해주는데,
+         해당 UIWindow에서 첫번째로 반응할 요소를 TextField로 해주게 되면 키보드가 생기는 것.
+         사용자에게 첫번째로 응답해주는게 TextField가 되고, 반응했기에 키보드가 올라오게 되는 것이다.
+         */
+        userTextField.becomeFirstResponder() // 키보드 바로 생성되게 설정
         
         textShowLabel.text = "여기에 적으신 내용이 보여집니다"
         textShowLabel.numberOfLines = 0
@@ -67,6 +73,9 @@ class ViewController: UIViewController, UITextFieldDelegate { // protocol(자격
     }
     
     func textFieldWrittenCompeleted(_ textField: UITextField) -> Bool {
+        /**
+         애초에 UIView는 UIResponder를 상속하여 만들어졌다.
+         */
         userTextField.resignFirstResponder()
         return true
     }
