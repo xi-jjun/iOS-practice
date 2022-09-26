@@ -16,6 +16,8 @@ import UIKit
  instance.someMethod() => 불가능
  
  delegate.someMethod() => OK
+ 
+ 3. Apple이 미리 만들어 뒀다. 터치가 일어났을 때, 한 글자 입력될 때 마다 감지하는 것 등등... 개발자 편하라고 미리 다 구현을 해놨고, 우리는 그것을 delegate pattern을 통해 사용하기만 하면 된다. 핵심코드는 숨기면서 개발자에게 다양한 기능을 제공하는 방법이기에 사용한 것 같다
  */
 // UITextFieldDelegate protocol 채택
 class ViewController: UIViewController, UITextFieldDelegate { // protocol(자격증) 추가
@@ -64,6 +66,8 @@ class ViewController: UIViewController, UITextFieldDelegate { // protocol(자격
     
     /*
      text글자 내용이 한 글자씩 추가되거나 수정될 때 마다 호출이 됨
+     if true, allow to write
+     else, can not write
      이처럼 UITextFieldDelegate를 추가하면 다양한 함수를 구현하여 제어를 할 수 있음
      */
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
