@@ -7,7 +7,18 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate { // 자격증 추가
+/**
+ why delegate?
+ 1. 객체간 상호작용 가능 => return value에 따라 text를 더 받을지 결정하는 것
+ 2. textField의 내부 구현을 숨길 수 있음
+ 따라서 객체에서 바로 method를 호출하는 방식이 아닌, delegate의 method를 호출하여 동작하게 된다.
+ let instance = MyViewController()
+ instance.someMethod() => 불가능
+ 
+ delegate.someMethod() => OK
+ */
+// UITextFieldDelegate protocol 채택
+class ViewController: UIViewController, UITextFieldDelegate { // protocol(자격증) 추가
 
     @IBOutlet weak var userTextField: UITextField!
     @IBOutlet weak var textShowLabel: UILabel!
@@ -23,8 +34,10 @@ class ViewController: UIViewController, UITextFieldDelegate { // 자격증 추�
          현재 ViewController에 UITextField가 delegate로 등록.
          구현은 현재 클래스에서 하고, 동작은 delegate에 위임.
          => UITextField에는 textField라는 method가 존재. 해당 method는 delegate의 textField를 수행하도록 할 것임. 따라서! UITextField는 delegate에게 해당 method를 실행하도록 명령을 위임한다.
+         
+         현재 클래스에게 UITextField의 기능을 위임하는 것
          */
-        userTextField.delegate = self
+        userTextField.delegate = self //
         
         view.backgroundColor = #colorLiteral(red: 0.9141908288, green: 0.8648947477, blue: 0.976552546, alpha: 1)
         
