@@ -35,8 +35,6 @@ class FirstViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        
-        
         mainLabelAutoLayout()
         backBtnAutoLayout()
     }
