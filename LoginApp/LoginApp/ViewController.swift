@@ -276,16 +276,21 @@ extension ViewController: UITextFieldDelegate {
             passwordInfoLabel.font = .systemFont(ofSize: 11)
             passwordInfoLabelCenterYConstraint.constant = -13
         }
+        
+        UIView.animate(withDuration: 0.2, delay: 0) {
+            self.stackView.layoutIfNeeded() // stackView 하위의 모든 것을 자연스럽게 움직이는 것 처럼 보이게 해주겠다 라는 것.
+            // view가 layout를 즉시 업데이트 할 수 있다. => 원래 drawing cycle 기다려야 하는데 다 필요없고 업데이트
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == emailTextField {
+        if textField == emailTextField && textField.text == "" {
             emailInfoLabel.backgroundColor = .clear
             emailInfoLabel.font = .systemFont(ofSize: 18)
             emailInfoLabelCenterYConstraint.constant = 0
         }
         
-        if textField == passwordTextField {
+        if textField == passwordTextField && textField.text == "" {
             passwordInfoLabel.backgroundColor = .clear
             passwordInfoLabel.font = .systemFont(ofSize: 18)
             passwordInfoLabelCenterYConstraint.constant = 0
