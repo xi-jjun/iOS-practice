@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     // MARK: - email Text View component
     private lazy var emailTextFieldView: UIView = {
         let view = UIView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
         
@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     // MARK: - password Text View component
     private lazy var passwordTextFieldView: UIView = {
         let view = UIView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
         
@@ -134,8 +134,16 @@ class ViewController: UIViewController {
     
     private let textViewHeight: CGFloat = 48
     
+    /**
+     autolayout을 위한 코드
+     */
+    lazy var emailInfoLabelCenterYConstraint = emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor)
+    lazy var passwordInfoLabelCenterYConstraint = passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         setUpUI()
     }
     
@@ -157,7 +165,8 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             emailInfoLabel.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 10),
             emailInfoLabel.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: 10),
-            emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor),
+//            emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor), // auto layout을 코드로 동적 변경하기 위하여 제거
+            emailInfoLabelCenterYConstraint, // <= 동적으로 바꾸기 위해 추가
             
             emailTextField.leadingAnchor.constraint(equalTo: emailTextFieldView.leadingAnchor, constant: 10),
             emailTextField.trailingAnchor.constraint(equalTo: emailTextFieldView.trailingAnchor, constant: 10),
@@ -174,9 +183,8 @@ class ViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             passwordInfoLabel.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 10),
-            passwordInfoLabel.topAnchor.constraint(equalTo: passwordTextFieldView.topAnchor, constant: 5),
-            passwordInfoLabel.bottomAnchor.constraint(equalTo: passwordTextFieldView.bottomAnchor, constant: -5),
-            passwordInfoLabel.widthAnchor.constraint(equalToConstant: 250),
+            passwordInfoLabel.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: 10),
+            passwordInfoLabelCenterYConstraint, // auto layout 동적 변경을 위해 변수로 추가
             
             passwordTextField.leadingAnchor.constraint(equalTo: passwordTextFieldView.leadingAnchor, constant: 10),
             passwordTextField.trailingAnchor.constraint(equalTo: passwordTextFieldView.trailingAnchor, constant: 10),
@@ -244,3 +252,44 @@ class ViewController: UIViewController {
     }
 }
 
+/**
+ 위에 같이 넣으면 코드가 헷갈릴 수 있기 때문에 delegate pattern을 쓸 때에는 main에 추가해서 적는게 아니라
+ 아래와 같이 확장을 하여 쓴다. => 코드 깔끔해지고 헷갈리지 않는다
+ 
+ UITextFieldDelegate protocol을 채택한 이유
+ => 우리는 현재 '로그인 text field'를 클릭하는 순간, placeholder가 위로 올라가게 되는 애니메이션 구현하고 싶다.
+ 따라서 TextField에 어떤 행동을 할 때에 우리가 원하는 동작을 정의하기 위해서 사용하는 것
+ */
+extension ViewController: UITextFieldDelegate {
+    /**
+     텍스트를 입력하기 시작할 때 실행되는 함수
+     */
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == emailTextField {
+//            emailInfoLabel.backgroundColor = .darkGray
+            emailInfoLabel.font = .systemFont(ofSize: 11)
+            emailInfoLabelCenterYConstraint.constant = -13
+        }
+        
+        if textField == passwordTextField {
+//            passwordInfoLabel.backgroundColor = .darkGray
+            passwordInfoLabel.font = .systemFont(ofSize: 11)
+            passwordInfoLabelCenterYConstraint.constant = -13
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == emailTextField {
+            emailInfoLabel.backgroundColor = .clear
+            emailInfoLabel.font = .systemFont(ofSize: 18)
+            emailInfoLabelCenterYConstraint.constant = 0
+        }
+        
+        if textField == passwordTextField {
+            passwordInfoLabel.backgroundColor = .clear
+            passwordInfoLabel.font = .systemFont(ofSize: 18)
+            passwordInfoLabelCenterYConstraint.constant = 0
+        }
+    }
+    
+}
