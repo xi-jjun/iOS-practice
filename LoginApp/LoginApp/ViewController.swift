@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         let label = UILabel()
         label.text = "Email or phone number"
         label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         
         return label
     }()
@@ -66,7 +66,7 @@ class ViewController: UIViewController {
         let label = UILabel()
         label.text = "password"
         label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         
         return label
     }()
