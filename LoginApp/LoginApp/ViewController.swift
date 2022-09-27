@@ -7,7 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+/**
+ final 추가해주는게 좋다.
+ why ?
+ class의 method는 struct보다 느리다. -> 동적 디스패치 때문
+ table 디스패치가 일어나서 느리다.
+ final을 붙여서 상속을 막아서 direct디스패치가 되게 하여 속도 향상 가능
+ */
+final class ViewController: UIViewController {
     // MARK: - logo image view component
     private lazy var logoImageView: UIImageView = {
         let img = UIImage(named: "netflix_logo.png")
