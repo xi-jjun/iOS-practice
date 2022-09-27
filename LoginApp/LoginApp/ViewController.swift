@@ -8,6 +8,14 @@
 import UIKit
 
 class ViewController: UIViewController {
+    // MARK: - logo image view component
+    private lazy var logImageView: UIImageView = {
+        let img = UIImage(named: "netflix_logo.png")
+        let imgView = UIImageView(image: img)
+//        imgView.frame = CGRect(x: 0, y: 0, width: 400, height: 130)
+        
+        return imgView
+    }()
     
     // MARK: - email Text View component
     private lazy var emailTextFieldView: UIView = {
@@ -141,6 +149,11 @@ class ViewController: UIViewController {
      */
     lazy var emailInfoLabelCenterYConstraint = emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor)
     lazy var passwordInfoLabelCenterYConstraint = passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor)
+    lazy var stackViewCenterYConstraint = stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+    lazy var logoImageViewCenterYConstraint = logImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200)
+    lazy var logoImageViewLeadingConstraint = logImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40)
+    lazy var logoImageViewTrailingConstraint = logImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
+    lazy var logoImageViewHeightConstraint = logImageView.heightAnchor.constraint(equalToConstant: 100)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,11 +165,24 @@ class ViewController: UIViewController {
     func setUpUI() {
         view.backgroundColor = .black
         view.addSubview(stackView) // stack view를 subview로 올리면, stack view안의 View에 대해서는 따로 subview로 추가하면 안된다.
+        view.addSubview(logImageView)
         
+        logoImageComponentUIConfiguration()
         emailComponentUIConfigure()
         passwordComponentUIConfigure()
         stackViewUIConfiguration()
         passwordResetComponentUIConfigure()
+    }
+    
+    func logoImageComponentUIConfiguration() {
+        logImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            logoImageViewCenterYConstraint,
+            logoImageViewLeadingConstraint,
+            logoImageViewTrailingConstraint,
+            logoImageViewHeightConstraint
+        ])
     }
     
     // MARK: - email View UIConfiguration
@@ -206,7 +232,8 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackViewCenterYConstraint,
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.heightAnchor.constraint(equalToConstant: textViewHeight * 3 + 36)
         ])
@@ -254,6 +281,16 @@ class ViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        logoImageViewCenterYConstraint.constant = -200
+        logoImageViewHeightConstraint.constant = 100
+        logoImageViewLeadingConstraint.constant = 40
+        logoImageViewTrailingConstraint.constant = -40
+        
+        stackViewCenterYConstraint.constant = 0
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
         self.view.endEditing(true)
     }
 }
@@ -283,8 +320,15 @@ extension ViewController: UITextFieldDelegate {
             passwordInfoLabelCenterYConstraint.constant = -13
         }
         
+        logoImageViewCenterYConstraint.constant = -250
+        logoImageViewHeightConstraint.constant = 80
+        logoImageViewLeadingConstraint.constant = 60
+        logoImageViewTrailingConstraint.constant = -60
+        
+        stackViewCenterYConstraint.constant = -50
+        
         UIView.animate(withDuration: 0.2, delay: 0) {
-            self.stackView.layoutIfNeeded() // stackView 하위의 모든 것을 자연스럽게 움직이는 것 처럼 보이게 해주겠다 라는 것.
+            self.view.layoutIfNeeded() // view 하위의 모든 것을 자연스럽게 움직이는 것 처럼 보이게 해주겠다 라는 것.
             // view가 layout를 즉시 업데이트 할 수 있다. => 원래 drawing cycle 기다려야 하는데 다 필요없고 업데이트
         }
     }
@@ -301,6 +345,29 @@ extension ViewController: UITextFieldDelegate {
             passwordInfoLabel.font = .systemFont(ofSize: 18)
             passwordInfoLabelCenterYConstraint.constant = 0
         }
+        
+        logoImageViewCenterYConstraint.constant = -200
+        logoImageViewHeightConstraint.constant = 100
+        logoImageViewLeadingConstraint.constant = 40
+        logoImageViewTrailingConstraint.constant = -40
+        
+        stackViewCenterYConstraint.constant = 0
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        logoImageViewCenterYConstraint.constant = -200
+        logoImageViewHeightConstraint.constant = 100
+        logoImageViewLeadingConstraint.constant = 40
+        logoImageViewTrailingConstraint.constant = -40
+        
+        stackViewCenterYConstraint.constant = 0
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+        
+        self.view.endEditing(true)
+        return true
     }
     
     @objc func textFieldChanged(_ textField : UITextField) {
