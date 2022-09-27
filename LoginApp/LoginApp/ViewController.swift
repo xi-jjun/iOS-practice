@@ -9,13 +9,14 @@ import UIKit
 
 class ViewController: UIViewController {
     // MARK: - logo image view component
-    private lazy var logImageView: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         let img = UIImage(named: "netflix_logo.png")
         let imgView = UIImageView(image: img)
 //        imgView.frame = CGRect(x: 0, y: 0, width: 400, height: 130)
         
         return imgView
     }()
+
     
     // MARK: - email Text View component
     private lazy var emailTextFieldView: UIView = {
@@ -150,10 +151,10 @@ class ViewController: UIViewController {
     lazy var emailInfoLabelCenterYConstraint = emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor)
     lazy var passwordInfoLabelCenterYConstraint = passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor)
     lazy var stackViewCenterYConstraint = stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-    lazy var logoImageViewCenterYConstraint = logImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200)
-    lazy var logoImageViewLeadingConstraint = logImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40)
-    lazy var logoImageViewTrailingConstraint = logImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
-    lazy var logoImageViewHeightConstraint = logImageView.heightAnchor.constraint(equalToConstant: 100)
+    lazy var logoImageViewCenterYConstraint = logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200)
+    lazy var logoImageViewLeadingConstraint = logoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40)
+    lazy var logoImageViewTrailingConstraint = logoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
+    lazy var logoImageViewHeightConstraint = logoImageView.heightAnchor.constraint(equalToConstant: 100)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,7 +166,7 @@ class ViewController: UIViewController {
     func setUpUI() {
         view.backgroundColor = .black
         view.addSubview(stackView) // stack view를 subview로 올리면, stack view안의 View에 대해서는 따로 subview로 추가하면 안된다.
-        view.addSubview(logImageView)
+        view.addSubview(logoImageView)
         
         logoImageComponentUIConfiguration()
         emailComponentUIConfigure()
@@ -174,8 +175,10 @@ class ViewController: UIViewController {
         passwordResetComponentUIConfigure()
     }
     
+    
+    // MARK: - Logo image View UIConfiguration
     func logoImageComponentUIConfiguration() {
-        logImageView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             logoImageViewCenterYConstraint,
