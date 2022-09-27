@@ -43,6 +43,7 @@ class ViewController: UIViewController {
         textField.autocapitalizationType = .none // 자동으로 첫 글자를 대문자로 할 것인지?
         textField.spellCheckingType = .no // 스펠링체크 할 것인지?
         textField.keyboardType = .emailAddress
+        textField.addTarget(self, action: #selector(textFieldChanged(_:)), for: .editingChanged)
         
         return textField
     }()
@@ -83,6 +84,7 @@ class ViewController: UIViewController {
         textField.autocapitalizationType = .none // 자동으로 첫 글자를 대문자로 할 것인지?
         textField.spellCheckingType = .no // 스펠링체크 할 것인지?
         textField.clearsOnBeginEditing = false // 다시 textField 터치했을 때 다 지우고 시작할 것인지?
+        textField.addTarget(self, action: #selector(textFieldChanged(_:)), for: .editingChanged)
         
         return textField
     }()
@@ -250,6 +252,10 @@ class ViewController: UIViewController {
             print("alert screen pop up!")
         }
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 }
 
 /**
@@ -295,6 +301,24 @@ extension ViewController: UITextFieldDelegate {
             passwordInfoLabel.font = .systemFont(ofSize: 18)
             passwordInfoLabelCenterYConstraint.constant = 0
         }
+    }
+    
+    @objc func textFieldChanged(_ textField : UITextField) {
+        if textField.text?.count == 1 && textField.text?.first == " " {
+            textField.text = ""
+            return
+        }
+        
+        guard
+            let email = emailTextField.text, !email.isEmpty,
+            let password = passwordTextField.text, !password.isEmpty else {
+            loginBtn.backgroundColor = .clear
+            loginBtn.isEnabled = false
+            return
+        }
+        
+        loginBtn.backgroundColor = .red
+        loginBtn.isEnabled = true
     }
     
 }
