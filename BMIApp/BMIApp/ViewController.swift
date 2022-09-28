@@ -60,6 +60,11 @@ class ViewController: UIViewController {
             calculationBtn.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+    
+    func clearTextField() {
+        weightTextField.text = ""
+        heightTextField.text = ""
+    }
 
     // MARK: - 버튼 탭 하면 BMI결과 화면으로 이동
     @objc func calculateBtnTapped() {
@@ -79,6 +84,8 @@ class ViewController: UIViewController {
         
         bmiVC.weightData = Double(weightTextField.text ?? "1.0")
         bmiVC.heightData = Double(heightTextField.text ?? "1.0")
+        
+        clearTextField()
         
         present(bmiVC, animated: true)
     }
