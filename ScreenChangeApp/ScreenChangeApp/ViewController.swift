@@ -52,12 +52,27 @@ class ViewController: UIViewController {
     /**
      스토리보드에서의 화면이동(간접 세그웨이)
      
-     segue : 화면의 이동을 담당하는 객체
+     segue : 화면의 이동을 담당하는 객체. 데이터를 전달하려면 prepare() method를 override해야한다
      */
     @IBAction func storyboardWithSegueBtnTapped(_ sender: UIButton) {
         performSegue(withIdentifier: "segueVC", sender: self)
     }
     
+    /**
+     data의 전달을 위해 재정의한 메서드
+     segue.source : 출발지 view controller
+     segue.destination : 도착지 view controller
+     segue.identifier : 식별자 => segue판별하기 위한 문자열
+     
+     performSegue가 prepare method를 자동으로 호출하는 것이다.
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueVC" {
+            guard let segueVC = segue.destination as? ThirdViewController else { return }
+            
+            segueVC.data = "이렇게 데이터 전달해야 함"
+        }
+    }
 
 }
 

@@ -38,6 +38,7 @@ class ThirdViewController: UIViewController {
 
     func mainLabelConfigure() {
         view.addSubview(mainLabel)
+        mainLabel.text = data
         
         mainLabel.translatesAutoresizingMaskIntoConstraints = false
         
