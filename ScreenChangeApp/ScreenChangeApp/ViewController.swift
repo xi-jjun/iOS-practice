@@ -51,9 +51,11 @@ class ViewController: UIViewController {
     
     /**
      스토리보드에서의 화면이동(간접 세그웨이)
+     
+     segue : 화면의 이동을 담당하는 객체
      */
     @IBAction func storyboardWithSegueBtnTapped(_ sender: UIButton) {
-        
+        performSegue(withIdentifier: "segueVC", sender: self)
     }
     
 
