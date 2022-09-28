@@ -72,7 +72,20 @@ class ViewController: UIViewController {
             
             segueVC.data = "이렇게 데이터 전달해야 함"
         }
+        
+        if segue.identifier == "fourthVC" {
+            guard let segueVC = segue.destination as? FouthViewController else { return }
+            
+            segueVC.data = "Hello Fourth View Controller!"
+        }
     }
 
+    /**
+     직접적으로 storyboard의 버튼과 segue를 연결시켰을 경우 실행된다.
+     '해당 segue를 실행시킬지 말지를 결정해주는 메서드' 이다.
+     */
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return true
+    }
 }
 

@@ -16,6 +16,7 @@
 		15F9381C28E2F4E5004492CF /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9381B28E2F4E5004492CF /* FirstViewController.swift */; };
 		15F9381E28E3095B004492CF /* MyStoryboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9381D28E3095B004492CF /* MyStoryboardViewController.swift */; };
 		15F9382028E4076E004492CF /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9381F28E4076E004492CF /* ThirdViewController.swift */; };
+		15F9382228E40DBE004492CF /* FouthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9382128E40DBE004492CF /* FouthViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		15F9381B28E2F4E5004492CF /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		15F9381D28E3095B004492CF /* MyStoryboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoryboardViewController.swift; sourceTree = "<group>"; };
 		15F9381F28E4076E004492CF /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		15F9382128E40DBE004492CF /* FouthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FouthViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				15F9381F28E4076E004492CF /* ThirdViewController.swift */,
 				15F9381B28E2F4E5004492CF /* FirstViewController.swift */,
 				15F9380B28E2F2C1004492CF /* ViewController.swift */,
+				15F9382128E40DBE004492CF /* FouthViewController.swift */,
 				15F9380D28E2F2C1004492CF /* Main.storyboard */,
 				15F9381028E2F2C3004492CF /* Assets.xcassets */,
 				15F9381228E2F2C3004492CF /* LaunchScreen.storyboard */,
@@ -151,6 +154,7 @@
 				15F9380828E2F2C1004492CF /* AppDelegate.swift in Sources */,
 				15F9381E28E3095B004492CF /* MyStoryboardViewController.swift in Sources */,
 				15F9380A28E2F2C1004492CF /* SceneDelegate.swift in Sources */,
+				15F9382228E40DBE004492CF /* FouthViewController.swift in Sources */,
 				15F9382028E4076E004492CF /* ThirdViewController.swift in Sources */,
 				15F9381C28E2F4E5004492CF /* FirstViewController.swift in Sources */,
 			);
