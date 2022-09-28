@@ -81,7 +81,10 @@ class BMIResultViewController: UIViewController {
     }
     
     func showBMI() {
-        var result = calculateBMI(weight: weightData!, height: heightData!)
+        guard let weight: Double = weightData else { return }
+        guard let height: Double = heightData else { return }
+        
+        var result = calculateBMI(weight: weight, height: height)
         result *= 100
         result = Double(round(result) / 100)
         resultLabel.text = "\(result)"
