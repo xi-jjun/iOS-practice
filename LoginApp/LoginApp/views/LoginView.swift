@@ -1,25 +1,17 @@
 //
-//  ViewController.swift
+//  LoginView.swift
 //  LoginApp
 //
-//  Created by 김재준 on 2022/09/26.
+//  Created by 김재준 on 2022/10/02.
 //
 
 import UIKit
 
-/**
- final 추가해주는게 좋다.
- why ?
- class의 method는 struct보다 느리다. -> 동적 디스패치 때문
- table 디스패치가 일어나서 느리다.
- final을 붙여서 상속을 막아서 direct디스패치가 되게 하여 속도 향상 가능
- */
-final class ViewController: UIViewController {
+class LoginView: UIView {
     // MARK: - logo image view component
     private lazy var logoImageView: UIImageView = {
         let img = UIImage(named: "netflix_logo.png")
         let imgView = UIImageView(image: img)
-//        imgView.frame = CGRect(x: 0, y: 0, width: 400, height: 130)
         
         return imgView
     }()
@@ -89,7 +81,7 @@ final class ViewController: UIViewController {
     }()
     
     // MARK: - password text field
-    private lazy var passwordTextField: UITextField = {
+    lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.isSecureTextEntry = true
         textField.backgroundColor = .clear
@@ -106,17 +98,17 @@ final class ViewController: UIViewController {
     }()
     
     // MARK: - passwordShowBtn
-    private let passwordShowBtn: UIButton = {
+    let passwordShowBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("show", for: .normal)
         btn.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         
-        btn.addTarget(self, action: #selector(showBtnTapped), for: .touchUpInside)
+//        btn.addTarget(self, action: #selector(showBtnTapped), for: .touchUpInside)
         
         return btn
     }()
     
-    private let loginBtn: UIButton = {
+    let loginBtn: UIButton = {
         let btn = UIButton(type: .custom)
         btn.backgroundColor = .clear
         btn.layer.cornerRadius = 5
@@ -125,7 +117,7 @@ final class ViewController: UIViewController {
         btn.setTitle("Login", for: .normal)
         btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         btn.isEnabled = true
-        btn.addTarget(self, action: #selector(loginBtnTapped), for: .touchUpInside)
+//        btn.addTarget(self, action: #selector(loginBtnTapped), for: .touchUpInside)
         
         return btn
     }()
@@ -140,40 +132,48 @@ final class ViewController: UIViewController {
         return stView
     }()
     
-    private let passwordResetBtn: UIButton = {
+    let passwordResetBtn: UIButton = {
         let btn = UIButton()
         btn.backgroundColor = .clear
         btn.setTitle("Reset password", for: .normal)
         btn.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        btn.addTarget(self, action: #selector(resetBtnTapped), for: .touchUpInside)
+        // button target에서 present와 같은 기능이 호출될 것이라면, 그것은 view controller의 역할이다.
+        // 따라서 ViewController에서 addTarget해줄 수 있도록 메서드 옮김
+//        btn.addTarget(self, action: #selector(resetBtnTapped), for: .touchUpInside)
         
         return btn
     }()
     
     private let textViewHeight: CGFloat = 48
     
+    // 생성자를 추가해줘야 한다
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setUpUI()
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     /**
      autolayout을 위한 코드
      */
     lazy var emailInfoLabelCenterYConstraint = emailInfoLabel.centerYAnchor.constraint(equalTo: emailTextFieldView.centerYAnchor)
     lazy var passwordInfoLabelCenterYConstraint = passwordInfoLabel.centerYAnchor.constraint(equalTo: passwordTextFieldView.centerYAnchor)
-    lazy var stackViewCenterYConstraint = stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-    lazy var logoImageViewCenterYConstraint = logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200)
-    lazy var logoImageViewLeadingConstraint = logoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40)
-    lazy var logoImageViewTrailingConstraint = logoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
+    lazy var stackViewCenterYConstraint = stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
+    lazy var logoImageViewCenterYConstraint = logoImageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -200)
+    lazy var logoImageViewLeadingConstraint = logoImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40)
+    lazy var logoImageViewTrailingConstraint = logoImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40)
     lazy var logoImageViewHeightConstraint = logoImageView.heightAnchor.constraint(equalToConstant: 100)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
-        setUpUI()
-    }
-    
     func setUpUI() {
-        view.backgroundColor = .black
-        view.addSubview(stackView) // stack view를 subview로 올리면, stack view안의 View에 대해서는 따로 subview로 추가하면 안된다.
-        view.addSubview(logoImageView)
+        backgroundColor = .black
+        addSubview(stackView) // stack view를 subview로 올리면, stack view안의 View에 대해서는 따로 subview로 추가하면 안된다.
+        addSubview(logoImageView)
         
         logoImageComponentUIConfiguration()
         emailComponentUIConfigure()
@@ -240,57 +240,31 @@ final class ViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
 //            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             stackViewCenterYConstraint,
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             stackView.heightAnchor.constraint(equalToConstant: textViewHeight * 3 + 36)
         ])
     }
     
     // MARK: - password reset btn UIConfiguration
     func passwordResetComponentUIConfigure() {
-        view.addSubview(passwordResetBtn)
+        addSubview(passwordResetBtn)
         
         passwordResetBtn.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             passwordResetBtn.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10),
-            passwordResetBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            passwordResetBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            passwordResetBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            passwordResetBtn.centerXAnchor.constraint(equalTo: centerXAnchor),
+            passwordResetBtn.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            passwordResetBtn.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ])
     }
     
-    @objc func showBtnTapped() {
-        passwordTextField.isSecureTextEntry.toggle()
-    }
-    
-    @objc func loginBtnTapped() {
-        print("login btn tapped!")
-    }
-    
-    @objc func resetBtnTapped() {
-        let alert = UIAlertController(title: "Password Change", message: "Do you want to change your password?", preferredStyle: .alert)
-        
-        let success = UIAlertAction(title: "Yes", style: .default) { success in
-            print("Success to change password")
-        }
-        
-        let fail = UIAlertAction(title: "No", style: .default) { fail in
-            print("fail to change password")
-        }
-        
-        alert.addAction(success)
-        alert.addAction(fail)
-        
-        present(alert, animated: true) {
-            print("alert screen pop up!")
-        }
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(#function)
         logoImageViewCenterYConstraint.constant = -200
         logoImageViewHeightConstraint.constant = 100
         logoImageViewLeadingConstraint.constant = 40
@@ -298,10 +272,10 @@ final class ViewController: UIViewController {
         
         stackViewCenterYConstraint.constant = 0
         
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.4) {
+            self.layoutIfNeeded()
         }
-        self.view.endEditing(true)
+        self.endEditing(true)
     }
 }
 
@@ -313,7 +287,7 @@ final class ViewController: UIViewController {
  => 우리는 현재 '로그인 text field'를 클릭하는 순간, placeholder가 위로 올라가게 되는 애니메이션 구현하고 싶다.
  따라서 TextField에 어떤 행동을 할 때에 우리가 원하는 동작을 정의하기 위해서 사용하는 것
  */
-extension ViewController: UITextFieldDelegate {
+extension LoginView: UITextFieldDelegate {
     /**
      텍스트를 입력하기 시작할 때 실행되는 함수
      */
@@ -337,8 +311,8 @@ extension ViewController: UITextFieldDelegate {
         
         stackViewCenterYConstraint.constant = -50
         
-        UIView.animate(withDuration: 0.2, delay: 0) {
-            self.view.layoutIfNeeded() // view 하위의 모든 것을 자연스럽게 움직이는 것 처럼 보이게 해주겠다 라는 것.
+        UIView.animate(withDuration: 0.4, delay: 0) {
+            self.layoutIfNeeded() // view 하위의 모든 것을 자연스럽게 움직이는 것 처럼 보이게 해주겠다 라는 것.
             // view가 layout를 즉시 업데이트 할 수 있다. => 원래 drawing cycle 기다려야 하는데 다 필요없고 업데이트
         }
     }
@@ -373,10 +347,10 @@ extension ViewController: UITextFieldDelegate {
         stackViewCenterYConstraint.constant = 0
         
         UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
+            self.layoutIfNeeded()
         }
         
-        self.view.endEditing(true)
+        self.endEditing(true)
         return true
     }
     
@@ -397,5 +371,4 @@ extension ViewController: UITextFieldDelegate {
         loginBtn.backgroundColor = .red
         loginBtn.isEnabled = true
     }
-    
 }
