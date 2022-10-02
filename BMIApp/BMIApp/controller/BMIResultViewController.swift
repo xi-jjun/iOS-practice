@@ -9,6 +9,7 @@ import UIKit
 
 class BMIResultViewController: UIViewController {
     
+    var bmiManager = BMICalculationManager()
     var weightData: Double?
     var heightData: Double?
     private lazy var resultLabel: UILabel = {
@@ -73,20 +74,8 @@ class BMIResultViewController: UIViewController {
         dismiss(animated: true)
     }
 
-    func calculateBMI(weight: Double, height: Double) -> Double {
-        let meterHeight: Double = height / 100
-        let squareHeight: Double = pow(meterHeight, 2)
-        
-        return weight / squareHeight
-    }
-    
     func showBMI() {
-        guard let weight: Double = weightData else { return }
-        guard let height: Double = heightData else { return }
-        
-        var result = calculateBMI(weight: weight, height: height)
-        result *= 100
-        result = Double(round(result) / 100)
-        resultLabel.text = "\(result)"
+        let result = bmiManager.getBMIStringResult(weightData: weightData, heightData: heightData)
+        resultLabel.text = result
     }
 }
