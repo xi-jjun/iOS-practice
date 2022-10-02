@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		156E3A3128E8504E00C8730A /* BMICalculationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156E3A3028E8504E00C8730A /* BMICalculationManager.swift */; };
+		156E3A3328E96D2C00C8730A /* BMI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156E3A3228E96D2C00C8730A /* BMI.swift */; };
 		15F9383028E4123D004492CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9382F28E4123D004492CF /* AppDelegate.swift */; };
 		15F9383228E4123D004492CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9383128E4123D004492CF /* SceneDelegate.swift */; };
 		15F9383428E4123D004492CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F9383328E4123D004492CF /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		156E3A3028E8504E00C8730A /* BMICalculationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMICalculationManager.swift; sourceTree = "<group>"; };
+		156E3A3228E96D2C00C8730A /* BMI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMI.swift; sourceTree = "<group>"; };
 		15F9382C28E4123D004492CF /* BMIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15F9382F28E4123D004492CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15F9383128E4123D004492CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				156E3A3028E8504E00C8730A /* BMICalculationManager.swift */,
+				156E3A3228E96D2C00C8730A /* BMI.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -172,6 +175,7 @@
 				15F9383028E4123D004492CF /* AppDelegate.swift in Sources */,
 				15F9384428E41B2E004492CF /* BMIResultViewController.swift in Sources */,
 				15F9383228E4123D004492CF /* SceneDelegate.swift in Sources */,
+				156E3A3328E96D2C00C8730A /* BMI.swift in Sources */,
 				156E3A3128E8504E00C8730A /* BMICalculationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

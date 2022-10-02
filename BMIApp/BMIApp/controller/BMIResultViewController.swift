@@ -12,12 +12,25 @@ class BMIResultViewController: UIViewController {
     var bmiManager = BMICalculationManager()
     var weightData: Double?
     var heightData: Double?
+    
     private lazy var resultLabel: UILabel = {
         let label = UILabel()
         label.text = "계산 결과"
         label.textColor = .black
         label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 28)
+        label.font = .boldSystemFont(ofSize: 30)
+        
+        return label
+    }()
+    
+    private lazy var resultStatusLabel: UILabel = {
+        let label = UILabel()
+        label.layer.cornerRadius = 8
+        label.layer.masksToBounds = true
+        label.text = "상태"
+        label.textColor = .black
+        label.textAlignment = .center
+        label.font = .boldSystemFont(ofSize: 26)
         
         return label
     }()
@@ -39,6 +52,7 @@ class BMIResultViewController: UIViewController {
         view.backgroundColor = .white
 
         resultLabelConfiguration()
+        resultStatusLabelConfiguartion()
         backBtnConfiguration()
     }
     
@@ -54,6 +68,19 @@ class BMIResultViewController: UIViewController {
             resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80),
             resultLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
             resultLabel.heightAnchor.constraint(equalToConstant: 70)
+        ])
+    }
+    
+    func resultStatusLabelConfiguartion() {
+        view.addSubview(resultStatusLabel)
+        
+        resultStatusLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            resultStatusLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            resultStatusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            resultStatusLabel.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 80),
+            resultStatusLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -75,7 +102,17 @@ class BMIResultViewController: UIViewController {
     }
 
     func showBMI() {
-        let result = bmiManager.getBMIStringResult(weightData: weightData, heightData: heightData)
-        resultLabel.text = result
+        let result = bmiManager.getBMI(weight: weightData, height: heightData)
+        if let value = result?.value {
+            resultLabel.text = String(round(value * 100) / 100)
+        } else { resultLabel.text = "Error" }
+        
+        if let color = result?.color {
+            resultStatusLabel.backgroundColor = color
+        }
+        
+        if let status = result?.status {
+            resultStatusLabel.text = status
+        }
     }
 }
