@@ -15,6 +15,9 @@
 		151E307928D5FB4800F2E40D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 151E307728D5FB4800F2E40D /* LaunchScreen.storyboard */; };
 		156E3AE528EC75CA00C8730A /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156E3AE428EC75CA00C8730A /* Memory.swift */; };
 		156E3AE728EC76FD00C8730A /* MemoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156E3AE628EC76FD00C8730A /* MemoryCell.swift */; };
+		15FC577128ED684200155DA3 /* MainCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC577028ED684200155DA3 /* MainCollectionView.swift */; };
+		15FC577428ED76EA00155DA3 /* MemoryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC577328ED76EA00155DA3 /* MemoryConstants.swift */; };
+		15FC577628ED7F5100155DA3 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC577528ED7F5100155DA3 /* DummyData.swift */; };
 		25020B87E4C02B863CD69359 /* Pods_Memorial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3293CD60F4B451BF4789DD92 /* Pods_Memorial.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +32,9 @@
 		151E307A28D5FB4800F2E40D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		156E3AE428EC75CA00C8730A /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		156E3AE628EC76FD00C8730A /* MemoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCell.swift; sourceTree = "<group>"; };
+		15FC577028ED684200155DA3 /* MainCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionView.swift; sourceTree = "<group>"; };
+		15FC577328ED76EA00155DA3 /* MemoryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryConstants.swift; sourceTree = "<group>"; };
+		15FC577528ED7F5100155DA3 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
 		280163CB62AA2643C3E0D269 /* Pods-Memorial.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Memorial.debug.xcconfig"; path = "Target Support Files/Pods-Memorial/Pods-Memorial.debug.xcconfig"; sourceTree = "<group>"; };
 		3293CD60F4B451BF4789DD92 /* Pods_Memorial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Memorial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A107293D91926B7A172583 /* Pods-Memorial.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Memorial.release.xcconfig"; path = "Target Support Files/Pods-Memorial/Pods-Memorial.release.xcconfig"; sourceTree = "<group>"; };
@@ -69,15 +75,50 @@
 			children = (
 				151E306C28D5FB4600F2E40D /* AppDelegate.swift */,
 				151E306E28D5FB4600F2E40D /* SceneDelegate.swift */,
-				156E3AE428EC75CA00C8730A /* Memory.swift */,
-				156E3AE628EC76FD00C8730A /* MemoryCell.swift */,
-				151E307028D5FB4600F2E40D /* ViewController.swift */,
-				151E307228D5FB4600F2E40D /* Main.storyboard */,
+				15FC577228ED76D700155DA3 /* constants */,
+				15FC576D28ED541200155DA3 /* model */,
+				15FC576B28ED53D600155DA3 /* view */,
+				15FC576C28ED53ED00155DA3 /* controller */,
 				151E307528D5FB4800F2E40D /* Assets.xcassets */,
 				151E307728D5FB4800F2E40D /* LaunchScreen.storyboard */,
 				151E307A28D5FB4800F2E40D /* Info.plist */,
 			);
 			path = Memorial;
+			sourceTree = "<group>";
+		};
+		15FC576B28ED53D600155DA3 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				151E307228D5FB4600F2E40D /* Main.storyboard */,
+				156E3AE628EC76FD00C8730A /* MemoryCell.swift */,
+				15FC577028ED684200155DA3 /* MainCollectionView.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		15FC576C28ED53ED00155DA3 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				151E307028D5FB4600F2E40D /* ViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		15FC576D28ED541200155DA3 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				156E3AE428EC75CA00C8730A /* Memory.swift */,
+				15FC577528ED7F5100155DA3 /* DummyData.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		15FC577228ED76D700155DA3 /* constants */ = {
+			isa = PBXGroup;
+			children = (
+				15FC577328ED76EA00155DA3 /* MemoryConstants.swift */,
+			);
+			path = constants;
 			sourceTree = "<group>";
 		};
 		5AD6087513AC2F4079F04B5D /* Frameworks */ = {
@@ -212,10 +253,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15FC577628ED7F5100155DA3 /* DummyData.swift in Sources */,
 				156E3AE528EC75CA00C8730A /* Memory.swift in Sources */,
 				151E307128D5FB4600F2E40D /* ViewController.swift in Sources */,
+				15FC577128ED684200155DA3 /* MainCollectionView.swift in Sources */,
 				151E306D28D5FB4600F2E40D /* AppDelegate.swift in Sources */,
 				151E306F28D5FB4600F2E40D /* SceneDelegate.swift in Sources */,
+				15FC577428ED76EA00155DA3 /* MemoryConstants.swift in Sources */,
 				156E3AE728EC76FD00C8730A /* MemoryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
